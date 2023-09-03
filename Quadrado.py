@@ -1,0 +1,109 @@
+import math
+from fractions import Fraction as Frac
+#unicodeDirectiory:
+Times=(u'\u00D7')
+pM=u'\u00B1' 
+sRT=u'\u221a' 
+Chi=u'\u03C7'
+Iota=u'\u03B9'
+secondPower=u'\u00B2'
+
+QUADRATICA=(str(Chi)+str(secondPower)+str(Times)+str("A")+str("+")+str(Chi)+str(Times)+str("B")+str("+C"))
+
+#Gaining the Inputs. What are the coefficents?
+#NOTE:you cant just have a standard numerical imput... either interger or float (1 decimal place. Hence, DONT use values with components less than 0.1 )
+a=float(input("What is 'A'? in the Following Equation: " + QUADRATICA))
+b=float(input("What is 'B'? in the Following Equation: " + QUADRATICA))
+c=float(input("What is 'C'? in the Following Equation: " + QUADRATICA))
+
+
+#classing solutions and the mathematical framework behind the formula:
+Discriminant= (b**2-4*a*c)
+#Because the code gets very confused and doesnt proceed if Squareroot 
+#is negative we use this code to bypass the problem
+if Discriminant>0:
+	sqrtDisc= math.sqrt(Discriminant)
+else:
+	sqrtDisc=math.sqrt(math.sqrt((Discriminant)**2))
+
+#THE BIG PICTURE:
+#So when using the quadratic formula we have two types of outputs:Real and complex when Delta=><0.
+#Delta has a squareroot which in itself has other cateogories.
+#These categories I recall as clean:Delta=A^2, semiclean Delta=k*A^2 and unsimplifieable Delta=k.
+#The semiclean is currently under construction in az. construction is nearly finished! It has worked for one case and should work for more but needs to be tested. works for disc=	12.
+LHS=(-b/(2*a))
+
+#Unclean Complex
+if Discriminant<0 and int(sqrtDisc)!=sqrtDisc:
+	print("Complex Solutions")
+	#as the i accounts for the negative discriminant it must be removed with a - multipication.
+	print(str(Chi)+str("=")+str(Frac(LHS).limit_denominator(100))+str(" ")+str(pM)+str(" (")+str(Iota)+str("/")+str(2*a)+str(")")+str(Times)+str(sRT)+str(Frac((-1)*Discriminant).limit_denominator(100)))
+	
+#Clean Complex
+elif Discriminant<0 and int(sqrtDisc)==sqrtDisc:
+	print("Complex Solutions")
+	print(str(Chi)+str("=")+str(Frac(LHS).limit_denominator(100))+str(" ")+str(pM)+str(" ")+str(Iota)+str(Times)+str(Frac(sqrtDisc/2*a).limit_denominator(100)))
+	S
+#Clean Real
+elif Discriminant>=0 and int(sqrtDisc)==sqrtDisc:
+	print("Real Solutions!")
+	print(str(Chi)+str("=")+str(Frac(LHS).limit_denominator(100))+str("  ")+str(pM)+str("  ")+str(Frac(sqrtDisc/(2*a)).limit_denominator(100)))
+	
+#Unclean Real
+else:
+	print("Real Solutions!")
+	print(str(Chi)+str("=")+str(Frac(LHS).limit_denominator(100))+str(pM)+str("(1/")+str(2*a)+str(")*")+str(sRT)+str(Discriminant))
+	
+# #WOW JUST WOW. THE ISSUE WAS THE I NEEDED TO USE ==
+
+#Primes can be further cleaned if they are in the form sqrt(a;pha)=sqrt(k*a^2)
+
+def DiscDivSquare(primeList):
+    return [(Discriminant/i ** 2) for i in primeList]
+# To see all values of the product of Alpha divided by squared primes -> print(alphaDivSquare(primeList))
+#Getting primes
+def get_primelist(upper):
+	result = []
+	for cp in range ( 2, upper + 1 ):
+		for i in range ( 2, cp ):
+			if ( cp % i == 0 ):
+				break
+		else:
+			result.append(cp)
+	return result
+#100 implies tested for 100 primes
+primeList=(get_primelist(100))
+
+#the length of of primes is used for so the loop knows when to stop.
+lengthOfDiscDivSquare=len(DiscDivSquare(primeList))
+#Now the actual purpose of this whole thing. Note:the "solutions" of the loop are not the primes themselves although they can be easily calculated. they are value obtained whent the division occurs e.g. 12=2*2*3 -> sol 3.
+#Note as the prime produced is dependent on i it must stay in the loop.
+i=0
+if Discriminant>=0 and int(sqrtDisc) != sqrtDisc:
+	while i< lengthOfDiscDivSquare:
+		if DiscDivSquare(primeList)[i] == float(int(DiscDivSquare(primeList)[i])):
+			print(str("Yes, The Square Root Can be Simplified. Hence, the equation can become:"))
+			print(str(Chi)+str("=")+str(Frac(LHS).limit_denominator(100))+str(pM)+str(" (")+str(Frac(((math.sqrt(Discriminant/DiscDivSquare(primeList)[i])))*(1/(2*a))).limit_denominator(100))+str(")")+str(Times)+str(sRT)+str(int(DiscDivSquare(primeList)[i])))
+			
+		else:
+			pass
+			# print(DiscDivSquare(primeList)[i])
+			# print("no solution is found")
+		i=i+1
+
+#Just for aesthetic reasons you could simplify the 2nd limit denom that deals with iota so that it becomes numerator*iota "/" demoniator.
+if Discriminant<0 and int(sqrtDisc) != sqrtDisc:
+	while i< lengthOfDiscDivSquare:
+		if DiscDivSquare(primeList)[i] == float(int(DiscDivSquare(primeList)[i])):
+			print(str("Yes, The Square Root Can be Simplified. Hence, the equation can become:"))
+			print(str(Chi)+str("=")+str(Frac(LHS).limit_denominator(100))+str(pM)+str(" (")+str(Iota)+str(Frac(((math.sqrt(Discriminant/DiscDivSquare(primeList)[i])))*(1/(2*a))).limit_denominator(100))+str(")")+str(Times)+str(sRT)+str(((-1)*int(DiscDivSquare(primeList)[i]))))
+		else:
+			pass
+			# print(DiscDivSquare(primeList)[i])
+			# print("no solution is found")
+		i=i+1
+else:
+	pass
+
+#end of code:
+input("Press any key to close to close")
