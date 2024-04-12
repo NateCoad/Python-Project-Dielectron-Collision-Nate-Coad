@@ -1,0 +1,101 @@
+#imports
+import numpy as np
+import matplotlib.pyplot as plt
+
+oneToHundred = np.arange(1,101)
+Real = np.arange(1, 11)
+Imaginary = np.arange(1, 11)
+
+#previous defintions that we want to expand into a numpy array for each case of real and imaginary.
+# def Y(i):
+#     return (oneToHundred[i]**Real[2]) * np.sin(Imaginary[1] * logHundred(i))  # Call logHundred with i
+
+# def X(i):
+#     return (oneToHundred[i]**Real[2]) * np.cos(Imaginary[1] * logHundred(i))  # Call logHundred with i
+Y_Array=np.zeros((10,10,100))
+X_Array=np.zeros((10,10,100))
+
+for i in range(10):
+    for j in range(10):
+        Y_Array[i, j] = (oneToHundred**Real[j]) * np.sin(Imaginary[i] * np.log(oneToHundred))
+        X_Array[i, j] = (oneToHundred**Real[j]) * np.cos(Imaginary[i] * np.log(oneToHundred))
+
+
+
+cumSumY21 = np.cumsum(Y_Array[2, 1], axis=0)  # Cumulative sum along axis 0
+cumSumX21 = np.cumsum(X_Array[2, 1], axis=0)  # Cumulative sum along axis 0
+cumSumY12 = np.cumsum(Y_Array[1, 2], axis=0)  # Cumulative sum along axis 0
+cumSumX12 = np.cumsum(X_Array[1, 2], axis=0)  # Cumulative sum along axis 0
+
+for i in range(10):
+    for j in range(10):
+        plt.plot(np.cumsum(X_Array[i, j], axis=0),np.cumsum(Y_Array[i, j], axis=0))
+        plt.xlim((-200000, 200000))
+        plt.ylim((-200000, 200000))
+        plt.grid()  # Add grid lines for better visualization
+        plt.xlabel('Cumulative Sum of X')
+        plt.ylabel('Cumulative Sum of Y')
+        plt.title("""Spiral Nature in the Addition of Complex Exponentials
+         07.04.24""")
+plt.show()
+
+
+# # input("")
+# #Singular Evolution plot:
+# #Unicodes:
+# Sigma= u'\u03A3'
+# Z=u'\u207B'+u'\u207D'+u'\u00B2'+u'\u207A'+ u'\u2071'+u'\u207E'
+# oneToHundred = range(1, 101)
+# print(str(Sigma)+" 1"+str(Z)+" + 2"+str(Z)+" + 3"+str(Z)+" +...+ n"+str(Z))
+# def logHundred(i):
+#     return np.log(oneToHundred[i])
+
+# real = range(1, 10)
+# imaginary = range(1, 10)
+
+# def Y(i):
+#     return (oneToHundred[i]**real[2]) * np.sin(imaginary[1] * logHundred(i))
+
+# def X(i):
+#     return (oneToHundred[i]**real[2]) * np.cos(imaginary[1] * logHundred(i))
+
+# CumSumX_list = []
+# CumSumY_list = []
+
+# for i in range(len(oneToHundred)):
+#     CumSumY = np.cumsum(Y(i))
+#     CumSumX = np.cumsum(X(i))
+#     CumSumX_list.append(CumSumX[-1])  # Append the last value of cumSumX
+#     CumSumY_list.append(CumSumY[-1])  # Append the last value of cumSumY
+
+# # Set initial limits
+# xlim = (-2, 2)
+# ylim = (-2, 2)
+
+# for i in range(len(oneToHundred)):
+#     plt.clf()  # Clear previous plot
+#     plt.plot(CumSumX_list[:i+1], CumSumY_list[:i+1], 'black', label=r'$z=2+i$')  # Plot dots with blue color
+#     plt.xlabel('Cumulative Sum of X')
+#     plt.ylabel('Cumulative Sum of Y')
+#     plt.title("""Spiral Nature in the Addition of Complex Exponentials
+#         07.04.24""")
+   
+#     plt.xlim(xlim)
+#     plt.ylim(ylim)
+#     plt.grid()  # Add grid lines for better visualization
+#     if i>20:
+#         plt.pause(0.05)
+#     elif i>15:
+#         plt.pause(0.1)
+#     elif i>10:
+#         plt.pause(0.25)
+#     else:
+#         plt.pause(0.4)
+
+
+#     plt.legend()  # Pause to show the plot for a short duration
+#     # Adjust limits for the next iteration
+#     xlim = (min(CumSumX_list[:i+1]) - 5, max(CumSumX_list[:i+1]) +5)
+#     ylim = (min(CumSumY_list[:i+1]) - 5, max(CumSumY_list[:i+1]) + 5)
+
+# plt.show()
